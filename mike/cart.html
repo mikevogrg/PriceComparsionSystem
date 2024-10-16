@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        body {
+            background-image: url('123.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        #cart-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .product {
+            background-color: #fff;
+            color: #000;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            flex: 0 0 calc(33.33% - 20px);
+            max-width: calc(33.33% - 20px);
+            box-sizing: border-box;
+        }
+        .product button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .product button:hover {
+            background-color: #c82333;
+        }
+        #budget {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #make-payment-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #make-payment-button:hover {
+            background-color: #218838;
+        }
+        .dialog {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .dialog-content {
+            background-color: #fff;
+            color: #000;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+        }
+        .dialog-content h2 {
+            margin-top: 0;
+        }
+        .dialog-content input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .dialog-content button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .dialog-content button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cart</h1>
+        <a href="dashboard.html" style="color:white">Back Home</a>
+        <div id="cart-items"></div>
+        <button id="make-payment-button">Make Payment</button>
+    </div>
+    <div id="budget"></div>
+
+    <!-- Payment Dialog -->
+    <div id="payment-dialog" class="dialog">
+        <div class="dialog-content">
+            <span class="close-button" id="close-dialog">&times;</span>
+            <h2>Payment</h2>
+            <p>Total Amount: <span id="payment-amount"></span></p>
+            <label for="phone-number">Phone Number:</label>
+            <input type="tel" id="phone-number" required placeholder="Enter your phone number">
+            <button id="submit-payment" >Submit Payment</button>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve cart items from localStorage
+        const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+        const cartItemsContainer = document.getElementById("cart-items");
+
+        // Display cart items
+        cartItems.forEach((item, index) => {
+            const itemDiv = document.createElement("div");
+            itemDiv.classList.add("product");
+            itemDiv.innerHTML = `
+                <h3>${item.name}</h3>
+                <p>${item.company}</p>
+                <p>Price: $${item.price}</p>
+                <button onclick="removeProduct(${index})">Remove</button>
+            `;
+            cartItemsContainer.appendChild(itemDiv);
+        });
+
+        // Function to remove a product from the cart
+        function removeProduct(index) {
+            // Retrieve cart items from localStorage
+            const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+            // Remove the product from cartItems array
+            cartItems.splice(index, 1);
+            // Update localStorage with the modified cart items
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+            // Reload the page to reflect the changes
+            location.reload();
+        }
+
+        // Retrieve the stored budget from localStorage
+        let storedBudget = localStorage.getItem("totalPrice");
+
+        // Update the text content of the budget element
+        const budgetElement = document.getElementById("budget");
+        budgetElement.textContent = `Total Budget: $${storedBudget}`;
+
+        // Payment dialog elements
+        const makePaymentButton = document.getElementById("make-payment-button");
+        const paymentDialog = document.getElementById("payment-dialog");
+        const closeDialogButton = document.getElementById("close-dialog");
+        const submitPaymentButton = document.getElementById("submit-payment");
+        const paymentAmount = document.getElementById("payment-amount");
+        const phoneNumberInput = document.getElementById("phone-number");
+
+        // Open the payment dialog
+        makePaymentButton.addEventListener("click", () => {
+            paymentAmount.textContent = `$${storedBudget}`;
+            paymentDialog.style.display = "flex";
+        });
+
+        // Close the payment dialog
+        closeDialogButton.addEventListener("click", () => {
+            paymentDialog.style.display = "none";
+        });
+
+        // Handle payment submission
+submitPaymentButton.addEventListener("click", async () => {
+    const phoneNumber = phoneNumberInput.value;
+    if (!phoneNumber) {
+        alert("Please enter a phone number.");
+        return;
+    }
+
+    const paymentData = {
+        phone: phoneNumber,
+        amount: storedBudget
+    };
+
+    const formData = new FormData();
+    formData.append("phone", paymentData.phone);
+    formData.append("amount", paymentData.amount);
+
+    try {
+        const response = await fetch("http://localhost/mike/paynow/paynow.php", {
+            method: "POST",
+            body: formData
+        });
+
+        if (response.ok) {
+            alert("Payment successful Processed:Make Payment!");
+            paymentDialog.style.display = "none";
+            // Additional actions on successful payment (e.g., clear cart)
+        } else {
+            alert("Payment failed. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Payment failed. Please try again later.");
+    }
+});
+
+    </script>
+</body>
+</html>

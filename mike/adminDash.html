@@ -1,0 +1,469 @@
+<!--
+=========================================================
+* Paper Dashboard 2 - v2.0.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/paper-dashboard-2
+* Copyright 2020 Creative Tim (https://www.creative-tim.com)
+
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Price
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="./assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="./assets/demo/demo.css" rel="stylesheet" />
+</head>
+
+<body class="" onload="getDocuments()">
+  <div class="wrapper ">
+    <div class="sidebar" data-color="white" data-active-color="danger">
+      <div class="logo">
+
+        <a href="adminDash.html" class="simple-text logo-normal">
+          ADMIN
+<!--           <div class="logo-image-big">
+            <img src="123.png">
+          </div> -->
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+           <li>
+            <a href="addProduct.html">
+              <i class="nc-icon nc-diamond"></i>
+              <p>Add Product</p>
+            </a>
+          </li>
+          <li>
+            <a href="clients.html">
+              <i class="nc-icon nc-diamond"></i>
+              <p>All Clients</p>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel" style="height: 100vh;">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <form>
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search...">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <i class="nc-icon nc-zoom-split"></i>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <ul class="navbar-nav">
+              <li class="nav-item btn-rotate dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="nc-icon nc-bell-55"></i>
+                  <p>
+                    <span class="d-lg-none d-md-block">Some Actions</span>
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 class="description">Details</h3>
+                                    <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table mr-1"></i>
+                                ALL PRODUCTS
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" >
+                                    <table class="table table-bordered" id="issues_overview" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-size: 10px">ProductName</th>
+                                                <th style="font-size: 10px">ProductBrand</th>
+                                                <th style="font-size: 10px">ProductCategory</th>
+                                                <th style="font-size: 10px">Company</th>
+                                                <th style="font-size: 10px">Price</th>                                               
+                                                <th style="font-size: 10px">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="documents">
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer" style="position: absolute; bottom: 0; width: -webkit-fill-available;">
+        <div class="container-fluid">
+          <div class="row">
+            <nav class="footer-nav">
+              <ul>
+                <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li>
+                <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li>
+                <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
+              </ul>
+            </nav>
+            <div class="credits ml-auto">
+              <span class="copyright">
+                © 2020, made with <i class="fa fa-heart heart"></i> by Creative Tim
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Create non_compliance issue -->
+        <div id="create_non_compliance" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+    <div class="modal-header bg-primary y-jumbo">
+        <h4 class="modal-title  text-light">Add Vacancy</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form id="jobs">
+                    <input type="hidden" class="form-control" id="id" name="Product Name" placeholder="Enter Product Name" required="">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="productname">Organization Name</label>
+                                <input type="text" list="names" class="form-control" id="organization" name="Name" placeholder="Enter Organization Name" required="" >
+                                <datalist  id="names"></datalist>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unit_price">Vacant Post</label>
+                                <input type="text" class="form-control" id="name" name="Product Price" placeholder="Enter Vacant Post" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unit_of_measure">Email/Phone For Application</label>
+                                <input type="text" class="form-control" id="apply" placeholder="Email" required="">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unit_of_measure"> Deadline</label>
+                              <input type="text" class="form-control" id="category" placeholder="02 May 2024" required="">
+                            </div>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="unit_price">Job Description</label>
+                                <textarea type="text" class="form-control" id="description" name="Description" placeholder="Description" required="" rows="5"></textarea>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                     <div class="row">
+                      <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="unit_price">Duties</label>
+                                <textarea type="text" class="form-control" id="duties" name="Description" placeholder="Describe Duties" required="" rows="5"></textarea>
+                            </div>
+                          </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="unit_price">Qualifications</label>
+                                <textarea type="text" class="form-control" id="qualification" name="Description" placeholder="Describe Qualifications" required="" rows="5"></textarea>
+                            </div>
+                          </div>
+                    </div>                   
+                    
+                    
+                    
+                    
+                    <div class="btj mt-auto" style="text-align: center;">
+                        <button type="button" onclick="$('#processing').modal('show'),submitForm()" class="btn btn-success btn-sm" id="save" > Add Job <i class="fa fa-sign-in-alt"></i></button>
+                       
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+</div>
+</div>
+</div>
+
+<!-- ########################################################################################## -->
+
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="./assets/sbelement.js"></script>
+    <script src="./assets/sweetalert.js"></script>
+    <script src="./assets/datatables.js"></script>
+  <!--   Core JS Files   -->
+  <script src="./assets/js/core/jquery.min.js"></script>
+  <script src="./assets/js/core/popper.min.js"></script>
+  <script src="./assets/js/core/bootstrap.min.js"></script>
+  <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!--  Google Maps Plugin    -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <!-- Chart JS -->
+  <script src="./assets/js/plugins/chartjs.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="./assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="./assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
+                                             <!-- <a href="http://localhost:90/trackBackend/storage/app/public/uploads/${response.data[i].docName}">View</a></td> -->
+  <script type="text/javascript">
+    function getDocuments(){
+  var formdata = new FormData();
+    var orders=[];
+    var order;
+  var xhtp = new XMLHttpRequest();
+  xhtp.open('GET',"http://localhost/mikeBackend/public/products", true);
+    xhtp.onreadystatechange = function(){
+    if(xhtp.status === 200 && xhtp.readyState === 4){
+      var response = JSON.parse(xhtp.responseText);
+      console.log(response);
+      byId('documents').innerHTML ="";
+   console.log(response);
+  for (var i in response.data) {
+    orders.push(response.data[i]);
+    response.data[i];
+    console.log(response.data[i]);
+
+      var tr = element('tr');
+      var td = element('td');
+
+    var trInner = `
+                                                
+
+                                                <td>${response.data[i].name}</td>
+                                                <td>${response.data[i].brand}</td>
+                                                <td>${response.data[i].category}</td>
+                                                <td>${response.data[i].company}</td>
+                                                <td>${response.data[i].price}</td>
+                                             <td> <a onclick="Remove('${response.data[i].id}')" class="btn btn-danger btn-icon-split">
+                                                     <span class="icon text-white-50">
+                                                     </span>
+                                                     <span class="text">Remove</span>
+                                                     </a></td>
+                                           `;
+
+                                            tr.innerHTML = trInner;
+
+
+                                            // tr.setAttribute("onclick",'showissue('+JSON.stringify(response.data[i])+')');
+                                            console.log(response.data[i]);
+                                            byId('documents').appendChild(tr);
+     }  
+  }
+          
+            
+
+    }
+    xhtp.send();
+}
+function Remove(id) {
+    var formdata = new FormData();
+formdata.append('id',id);
+
+  var xhr = new XMLHttpRequest();
+    xhr.open('POST',"http://localhost/mikeBackend/public/product/remove", true);
+    //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onreadystatechange = function(){
+        console.log(xhr.readyState);
+        console.log(xhr.status);
+        if(xhr.status === 200 && xhr.readyState === 4){
+            var response = JSON.parse(xhr.responseText);
+            console.log(response.data);
+            if(response.data === "failed"){
+                      swal(
+  'Failed!',
+  'Failed to Remove Product',
+  'error'
+);
+            }
+            else{
+                      swal(
+  'Sucess!',
+  'Successfully Remove Product',
+  'success'
+).then(function() {
+   window.location.href="adminDash.html";
+});
+            }
+        }
+        else if(xhr.readyState === 4){
+                      swal(
+  'Failed!',
+  'Failed Remove Product',
+  'error'
+);
+
+        }
+        
+
+    }
+    xhr.send(formdata);
+    }
+
+function Accept(id) {
+    var formdata = new FormData();
+formdata.append('id',id);
+
+  var xhr = new XMLHttpRequest();
+    xhr.open('POST',"http://localhost/hrbackend/public/application/accept", true);
+    //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onreadystatechange = function(){
+        console.log(xhr.readyState);
+        console.log(xhr.status);
+        if(xhr.status === 200 && xhr.readyState === 4){
+            var response = JSON.parse(xhr.responseText);
+            console.log(response.data);
+            if(response.data === "failed"){
+                      swal(
+  'Failed!',
+  'Failed to Accept Application',
+  'error'
+);
+            }
+            else{
+                      swal(
+  'Sucess!',
+  'Successfully Accept Application',
+  'success'
+).then(function() {
+   window.location.href="dashboard.html";
+});
+            }
+        }
+        else if(xhr.readyState === 4){
+                      swal(
+  'Failed!',
+  'Failed Accept Application',
+  'error'
+);
+
+        }
+        
+
+    }
+    xhr.send(formdata);
+    }
+
+
+function submitForm() {
+    var formdata = new FormData();
+formdata.append('name',document.getElementById('name').value);
+  formdata.append('category',document.getElementById('category').value);
+  formdata.append('organization',document.getElementById('organization').value);
+  formdata.append('description',document.getElementById('description').value);
+  formdata.append('qualification',document.getElementById('qualification').value);
+  formdata.append('duties',document.getElementById('duties').value);
+  formdata.append('apply',document.getElementById('apply').value);
+  var xhr = new XMLHttpRequest();
+    xhr.open('POST',"http://localhost:90/hr-backend/public/vacancy/store", true);
+    //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onreadystatechange = function(){
+        console.log(xhr.readyState);
+        console.log(xhr.status);
+        if(xhr.status === 200 && xhr.readyState === 4){
+            var response = JSON.parse(xhr.responseText);
+            console.log(response.data);
+            if(response.data === "failed"){
+                      swal(
+  'Failed!',
+  'Failed to add a Vacancy',
+  'error'
+);
+            }
+            else{
+                      swal(
+  'Sucess!',
+  'Successfully add a Vacancy',
+  'success'
+).then(function() {
+   window.location.href="dashboard.html";
+});
+            }
+        }
+        else if(xhr.readyState === 4){
+                      swal(
+  'Failed!',
+  'Failed to add a Vacancy',
+  'error'
+);
+
+        }
+        
+
+    }
+    xhr.send(formdata);
+    }
+  </script>
+</body>
+
+</html>

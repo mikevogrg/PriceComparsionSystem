@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Comparison System</title>
+    <style>
+        /* Basic styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-image: url('123.jpg');  /* Transparent sky blue */
+           background-size: cover;
+           background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* Ensure full viewport height */
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0; /* Increase padding */
+            width: 100%; /* Occupy full width */
+            text-align: center;
+            margin-bottom: 20px; /* Add margin bottom */
+        }
+        nav {
+            background-color: #444;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav span {
+            font-weight: bold;
+            margin-right: 20px;
+            color: white;
+            vertical-align: middle;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            box-sizing: border-box;
+        }
+
+        .search-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 50px;
+            border: none;
+            background-color: grey;
+            color: white;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-button:focus {
+            outline: none;
+        }
+        #products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 80%; /* Adjust width */
+        }
+        .product {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .product h3 {
+            margin-top: 0;
+        }
+        .product p {
+            margin: 5px 0;
+        }
+        .product button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .product button:hover {
+            background-color: #555;
+        }
+        #comparison-table {
+            display: flex; /* Use flexbox to display products horizontally */
+            overflow-x: auto; /* Add horizontal scrolling if necessary */
+            margin-top: 20px;
+        }
+        #budget {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Search Products Online </h2>
+    <a href="cart.html" style="color:grey">View Cart</a>
+<!--     <div id="search-bar">
+        <input id="search-input" type="text" value="" class="form-control" placeholder="Search Product...">
+
+        <button onclick="searchProducts()">Search</button>
+        <br>
+        <a href="cart.html" style="color:grey">View Cart</a>
+
+    </div> -->
+        <div class="search-container">
+        <input id="search-input" type="text" class="search-input" placeholder="Search...">
+        <button class="search-button" onclick="searchProducts()">&#128269;</button> <!-- Unicode character for a magnifying glass icon -->
+
+    </div>
+    
+    <div id="products-container">
+        
+    </div> <!-- Products container -->
+
+    <div id="comparison-table"></div>
+    <div id="budget"></div>
+
+    <script>
+        // Sample data
+        async function fetchProducts() {
+            try {
+                const response = await fetch('http://localhost/mikeBackend/public/products');
+                const data = await response.json();
+                return data.data;
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                return [];
+            }
+        }
+
+async function displayProducts() {
+    const searchInput = document.getElementById("search-input").value.toLowerCase();
+    const products = await fetchProducts();
+    const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(searchInput)
+    );
+
+    // Sort filtered products by price
+    filteredProducts.sort((a, b) => a.price - b.price);
+
+    const productsContainer = document.getElementById("products-container");
+    productsContainer.innerHTML = "";
+
+    filteredProducts.forEach(product => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("product");
+        productDiv.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>Price: $${product.price}</p>
+            <p>Brand: ${product.brand}</p>
+            <p>Category: ${product.category}</p>
+            <p>Company: ${product.company}</p>
+            <button onclick="addToComparison('${product.name}','${product.company}', ${product.price})">Add to Cart</button>
+        `;
+        productsContainer.appendChild(productDiv);
+    });
+}
+
+        let selectedProducts = [];
+
+        // Function to search products
+        function searchProducts() {
+            displayProducts();
+        }
+
+// Function to add products to the cart
+function addToComparison(productName, productCompany, productPrice) {
+    const product = { name: productName, company: productCompany, price: productPrice };
+    selectedProducts.push(product);
+    //updateComparisonTable();
+    updateBudget();
+    // Navigate to the cart page
+        // Store cart items in localStorage
+    localStorage.setItem("cartItems", JSON.stringify(selectedProducts));
+    alert("Product added to cart!");
+    //window.location.href = "cart.html";
+}
+
+
+        // Function to remove a product from the comparison table
+        function removeProduct(index) {
+            selectedProducts.splice(index, 1);
+            updateComparisonTable();
+            updateBudget();
+        }
+
+        // Function to update comparison table
+        function updateComparisonTable() {
+            const comparisonTable = document.getElementById("comparison-table");
+            comparisonTable.innerHTML = "";
+            selectedProducts.forEach((product, index) => {
+                const productDiv = document.createElement("div");
+                productDiv.classList.add("product");
+                productDiv.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>${product.company}</p>
+                    <p>Price: $${product.price}</p>
+                    <button onclick="removeProduct(${index})">Remove</button>
+                `;
+                comparisonTable.appendChild(productDiv);
+            });
+        }
+
+        // Function to update budget
+        function updateBudget() {
+            const budgetElement = document.getElementById("budget");
+            const totalPrice = selectedProducts.reduce((acc, curr) => acc + curr.price, 0);
+
+            // Update the text content of the budget element
+            budgetElement.textContent = `Total Budget: $${totalPrice}`;
+
+            // Save the total price to localStorage
+            localStorage.setItem('totalPrice', totalPrice);
+
+        }
+    </script>
+</body>
+</html>
